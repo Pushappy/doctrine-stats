@@ -13,7 +13,7 @@ use Steevanb\DoctrineStats\Doctrine\ORM\Event\PostLazyLoadEventArgs;
 
 class UnitOfWork extends DoctrineUnitOfWork
 {
-    public function loadCollection(PersistentCollection $collection)
+    public function loadCollection(PersistentCollection $collection): void
     {
         parent::loadCollection($collection);
 
