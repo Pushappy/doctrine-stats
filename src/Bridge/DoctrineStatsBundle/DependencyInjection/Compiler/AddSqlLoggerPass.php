@@ -14,7 +14,7 @@ class AddSqlLoggerPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container): void
     {
-        $definition = $container->getDefinition('doctrine.dbal.logger.chain');
-        $definition->addMethodCall('addLogger', [new Reference('doctrine_stats.logger.sql')]);
+        $definition = $container->getDefinition('doctrine.dbal.default_connection.configuration');
+        $definition->addMethodCall('setSqlLogger', [new Reference('doctrine_stats.logger.sql')]);
     }
 }
