@@ -16,13 +16,7 @@ use Steevanb\DoctrineStats\Doctrine\ORM\Proxy\ProxyFactory;
 
 class EntityManager extends DoctrineEntityManager
 {
-    /**
-     * Copied from Doctrine\ORM\EntityManager, cause return use new EntityManager() instead of new static()
-     *
-     * @param mixed $conn
-     * @return EntityManager
-     */
-    public static function create($conn, Configuration $config, EventManager $eventManager = null)
+    public function __construct(Connection $conn, Configuration $config, EventManager $eventManager)
     {
         if ($config->getMetadataDriverImpl() instanceof MappingDriver === false) {
             throw ORMException::missingMappingDriverImpl();
@@ -47,11 +41,6 @@ class EntityManager extends DoctrineEntityManager
                 throw new \InvalidArgumentException('Invalid argument: ' . $conn);
         }
 
-        return new static($conn, $config, $conn->getEventManager());
-    }
-
-    protected function __construct(Connection $conn, Configuration $config, EventManager $eventManager)
-    {
         parent::__construct($conn, $config, $eventManager);
 
         $proxyDir = $config->getProxyDir();
@@ -79,7 +68,7 @@ class EntityManager extends DoctrineEntityManager
     /** @param mixed $value */
     protected function setParentPrivatePropertyValue(string $name, $value): self
     {
-        $reflectionProperty = new \ReflectionProperty(get_parent_class($this), $name);
+        $reflectionProperty = new \ReflectionProperty(parent::class, $name);
         $reflectionProperty->setAccessible(true);
         $reflectionProperty->setValue($this, $value);
         $reflectionProperty->setAccessible(false);
