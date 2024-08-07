@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Steevanb\DoctrineStats\EventSubscriber;
 
-use Doctrine\Common\EventSubscriber;
 use Steevanb\DoctrineStats\{
     Bridge\DoctrineStatsBundle\DataCollector\DoctrineCollectorInterface,
     Doctrine\ORM\Event\PostCreateEntityEventArgs,
@@ -13,7 +12,8 @@ use Steevanb\DoctrineStats\{
     Doctrine\ORM\Event\PreHydrationEventArgs
 };
 
-class DoctrineEventSubscriber implements EventSubscriber
+/** @noinspection PhpUnused */
+class DoctrineEventSubscriber
 {
     /** @var string|null */
     protected $preHydrationEventId;
@@ -29,16 +29,7 @@ class DoctrineEventSubscriber implements EventSubscriber
         $this->collector = $collector;
     }
 
-    public function getSubscribedEvents(): array
-    {
-        return [
-            PostLazyLoadEventArgs::EVENT_NAME,
-            PreHydrationEventArgs::EVENT_NAME,
-            PostHydrationEventArgs::EVENT_NAME,
-            PostCreateEntityEventArgs::EVENT_NAME
-        ];
-    }
-
+    /** @noinspection PhpUnused */
     public function postLazyLoad(PostLazyLoadEventArgs $eventArgs): void
     {
         $this
@@ -46,6 +37,7 @@ class DoctrineEventSubscriber implements EventSubscriber
             ->addLazyLoadedEntity($eventArgs->getEntityManager(), $eventArgs->getEntity());
     }
 
+    /** @noinspection PhpUnused */
     public function preHydration(PreHydrationEventArgs $eventArgs): void
     {
         if ($this->preHydrationEventId === null) {
@@ -54,6 +46,7 @@ class DoctrineEventSubscriber implements EventSubscriber
         }
     }
 
+    /** @noinspection PhpUnused */
     public function postHydration(PostHydrationEventArgs $eventArgs): void
     {
         if ($this->preHydrationEventId === $eventArgs->getPreHydrationEventId()) {
@@ -67,6 +60,7 @@ class DoctrineEventSubscriber implements EventSubscriber
         }
     }
 
+    /** @noinspection PhpUnused */
     public function postCreateEntity(PostCreateEntityEventArgs $eventArgs): void
     {
         $this->collector->addHydratedEntity(

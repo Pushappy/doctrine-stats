@@ -15,6 +15,10 @@ services:
         arguments: [ '@doctrine_stats.data_collector.stats' ]
         tags:
             - { name: doctrine.event_subscriber }
+            - { name: doctrine.event_listener, event: postLazyLoad }
+            - { name: doctrine.event_listener, event: preHydration }
+            - { name: doctrine.event_listener, event: postHydration }
+            - { name: doctrine.event_listener, event: postCreateEntity }
 
     doctrine_stats.logger.sql:
         class: Steevanb\DoctrineStats\Doctrine\DBAL\Logger\SqlLogger
