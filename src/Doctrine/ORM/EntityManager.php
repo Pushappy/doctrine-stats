@@ -32,7 +32,7 @@ class EntityManager extends DoctrineEntityManager
                 break;
 
             case ($conn instanceof Connection):
-                if ($eventManager !== null && $conn->getEventManager() !== $eventManager) {
+                if ($eventManager !== null && $conn->getObjectManager() !== $eventManager) {
                     throw ORMException::mismatchedEventManager();
                 }
                 break;
