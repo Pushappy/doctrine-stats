@@ -16,16 +16,15 @@ trait OverloadedHydratorTrait
 
     protected function getEntityManager(): EntityManagerInterface
     {
-        return $this->_em;
+        return $this->em;
     }
 
     /**
      * @param Result|ResultStatement $stmt
      * @param object $resultSetMapping
      * @param array<string, string> $hints
-     * @return array<string|int, object>
      */
-    public function hydrateAll($stmt, $resultSetMapping, array $hints = [])
+    public function hydrateAll($stmt, $resultSetMapping, array $hints = []): mixed
     {
         $eventId = $this->dispatchPreHydrationEvent();
         $return = parent::hydrateAll($stmt, $resultSetMapping, $hints);
