@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace Steevanb\DoctrineStats\Doctrine\DBAL\Logger;
 
+use Doctrine\DBAL\Driver;
 use Doctrine\DBAL\Logging\SQLLogger as SQLLoggerInterface;
 
-class SqlLogger implements SQLLoggerInterface
+class SqlLogger implements \Doctrine\DBAL\Driver\Middleware
 {
     /** @var array<array<mixed>> */
     protected $queries = [];
@@ -68,5 +69,10 @@ class SqlLogger implements SQLLoggerInterface
     public function getQueries(): array
     {
         return $this->queries;
+    }
+
+    public function wrap(Driver $driver): Driver
+    {
+        return $driver;
     }
 }

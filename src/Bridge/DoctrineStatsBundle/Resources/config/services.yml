@@ -23,3 +23,5 @@ services:
     doctrine_stats.logger.sql:
         class: Steevanb\DoctrineStats\Doctrine\DBAL\Logger\SqlLogger
         public: false
+        tags:
+            - { name: doctrine.dbal.middleware, connection: default }
